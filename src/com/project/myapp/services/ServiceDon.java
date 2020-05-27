@@ -60,7 +60,7 @@ public class ServiceDon {
             int id = (int)Float.parseFloat(obj.get("id").toString());
             d.setId(id);
             d.setSomme(Double.parseDouble(obj.get("somme").toString()));
-            d.setDate(LocalDate.parse(obj.get("date").toString(),formatter));
+            d.setDate(LocalDate.parse(obj.get("date").toString().replaceAll("\\s",""),formatter));
             dons.add(d);
         }
         return dons;

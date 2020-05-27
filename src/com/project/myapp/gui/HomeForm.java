@@ -1,27 +1,47 @@
 package com.project.myapp.gui;
 
-import com.codename1.ui.Button;
-import com.codename1.ui.Form;
-import com.codename1.ui.Label;
+import com.codename1.components.FloatingActionButton;
+import com.codename1.components.MultiButton;
+import com.codename1.ui.*;
+import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
+import com.codename1.ui.layouts.FlowLayout;
+import com.codename1.ui.layouts.GridLayout;
+import com.codename1.ui.plaf.Style;
+import com.codename1.ui.util.Resources;
 
-public class HomeForm extends Form{
-    Form current;
-    public HomeForm() {
-        current=this;
-        setTitle("Home");
-        setLayout(BoxLayout.y());
+public class HomeForm extends SideMenu{
 
-        add(new Label("Choose an option"));
-        Button btnAddTask = new Button("Add Dons");
-        Button btnListTasks = new Button("Show Dons");
+    public HomeForm(Resources res){
+        super(BoxLayout.y());
+        Toolbar tb = getToolbar();
+        tb.setTitleCentered(false);
+        Image profilePic = res.getImage("user-picture.png");
+        Image mask = res.getImage("round-mask.png");
+        profilePic = profilePic.fill(mask.getWidth(), mask.getHeight());
+        Label profilePicLabel = new Label(profilePic, "ProfilePicTitle");
+        profilePicLabel.setMask(mask.createMask());
 
-        btnAddTask.addActionListener(e-> new AddDonForm(current).show());
-        btnListTasks.addActionListener(e-> new ListDonForm(current).show());
-        addAll(btnAddTask,btnListTasks);
+        Button menuButton = new Button("");
+        menuButton.setUIID("Title");
+        FontImage.setMaterialIcon(menuButton, FontImage.MATERIAL_MENU);
+        menuButton.addActionListener(e -> getToolbar().openSideMenu());
 
-
+        Container titleCmp = BoxLayout.encloseY(
+                FlowLayout.encloseIn(menuButton),
+                BorderLayout.centerAbsolute(
+                        BoxLayout.encloseY(
+                                new Label("", "Title"),
+                                new Label("", "SubTitle")
+                        )
+                ).add(BorderLayout.WEST, profilePicLabel)
+        );
+        tb.setTitleComponent(titleCmp);
+        setupSideMenu(res);
     }
 
+    @Override
+    protected void showOtherForm(Resources res) {
 
+    }
 }

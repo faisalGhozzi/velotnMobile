@@ -1,26 +1,28 @@
 package com.project.myapp.gui;
 
-import com.codename1.ui.Form;
+import com.codename1.ui.*;
+import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
-import com.codename1.ui.Button;
-import com.codename1.ui.Command;
-import com.codename1.ui.Dialog;
-import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
-import com.codename1.ui.TextField;
 import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.events.ActionListener;
 import com.codename1.ui.layouts.BoxLayout;
+import com.codename1.ui.util.Resources;
 import com.project.myapp.entity.Don;
 import com.project.myapp.services.ServiceDon;
 
+import javax.swing.border.Border;
 import java.time.LocalDate;
 
-public class AddDonForm extends Form {
+public class AddDonForm extends SideMenu {
 
-    public AddDonForm(Form previous){
-        setTitle("Add a new task");
+    public AddDonForm(Resources res){
+        super(new BorderLayout());
+        Toolbar tb = getToolbar();
+        tb.setUIID("ListDonToolbar");
+        setTitle("Donate");
         setLayout(BoxLayout.y());
+        tb.addMaterialCommandToLeftBar("",FontImage.MATERIAL_ARROW_BACK, e-> showOtherForm(res));
 
         TextField tfSomme = new TextField("","Donation sum");
         Button btnValider = new Button("Donate");
@@ -34,10 +36,6 @@ public class AddDonForm extends Form {
                 {
                     try {
                         Don d = new Don(Double.parseDouble(tfSomme.getText()));
-                        if( ServiceDon.getInstance().addDon(d))
-                            Dialog.show("Success","Connection accepted",new Command("OK"));
-                        else
-                            Dialog.show("ERROR", "Server error", new Command("OK"));
                     } catch (NumberFormatException e) {
                         Dialog.show("ERROR", "Status must be a number", new Command("OK"));
                     }
@@ -45,9 +43,11 @@ public class AddDonForm extends Form {
                 }
             }
         });
-
         addAll(tfSomme,btnValider);
-        getToolbar().addMaterialCommandToLeftBar("", FontImage.MATERIAL_ARROW_BACK, e-> previous.showBack());
     }
 
+    @Override
+    protected void showOtherForm(Resources res) {
+        new HomeForm(res).show();
+    }
 }
