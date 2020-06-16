@@ -32,7 +32,7 @@ public class Commande {
     }
 
     public Commande(double prix, int userid) {
-        this.date = LocalDate.now().plusDays(1);
+        this.date = LocalDate.now().plusDays(0);
         this.prix = prix;
         this.userid = userid;
     }

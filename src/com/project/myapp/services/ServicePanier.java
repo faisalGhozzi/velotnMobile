@@ -40,6 +40,9 @@ public class ServicePanier {
         req.addArgument("prix_total",String.valueOf(p.getPrix_total()));
         req.addArgument("qte",String.valueOf(p.getQte()));
         req.addArgument("user",String.valueOf(2));
+        InfiniteProgress prog = new InfiniteProgress();
+        Dialog d = prog.showInfiniteBlocking();
+        req.setDisposeOnCompletion(d);
         req.addResponseListener(new ActionListener<NetworkEvent>() {
             @Override
             public void actionPerformed(NetworkEvent evt) {
@@ -78,6 +81,9 @@ public class ServicePanier {
         req.removeAllArguments();
         req.setUrl(url);
         req.setPost(false);
+        InfiniteProgress prog = new InfiniteProgress();
+        Dialog d = prog.showInfiniteBlocking();
+        req.setDisposeOnCompletion(d);
         req.addResponseListener(new ActionListener<NetworkEvent>() {
             @Override
             public void actionPerformed(NetworkEvent evt) {
